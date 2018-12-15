@@ -112,6 +112,7 @@ EOF
 
 sysctl -p
 
+systemctl start firewalld
 firewall-cmd --permanent --add-service=ipsec 
 firewall-cmd --permanent --add-port=1701/udp 
 firewall-cmd --permanent --add-port=4500/udp 
