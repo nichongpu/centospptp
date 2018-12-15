@@ -63,7 +63,7 @@ rekey=no
 ikelifetime=8h
 keylife=1h
 type=transport
-left=172.31.36.166 
+left=47.52.92.168 
 leftprotoport=17/1701 
 right=%any
 rightprotoport=17/%any
@@ -110,12 +110,14 @@ net.ipv4.conf.ppp0.rp_filter = 0
 net.ipv4.conf.ppp0.send_redirects = 0 
 EOF
 
+sysctl -p
+
 firewall-cmd --permanent --add-service=ipsec 
 firewall-cmd --permanent --add-port=1701/udp 
 firewall-cmd --permanent --add-port=4500/udp 
 firewall-cmd --permanent --add-masquerade 
 firewall-cmd --reload 
-sysctl -p
+
 systemctl enable ipsec 
 systemctl start ipsec 
 systemctl enable xl2tpd 
