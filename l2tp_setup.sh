@@ -1,7 +1,7 @@
 ﻿#!/bin/bash
 yum -y install ppp pptpd epel-release xl2tpd libreswan lsof
 
-rm /etc/ppp/options.pptpd
+rm -f /etc/ppp/options.pptpd
 touch /etc/ppp/options.pptpd
 cat >> /etc/ppp/options.pptpd <<EOF
 ipcp-accept-local
@@ -31,7 +31,7 @@ persist
 logfile /var/log/xl2tpd.log
 EOF
 
-rm /etc/ipsec.conf
+rm -f /etc/ipsec.conf
 touch /etc/ipsec.conf
 cat >> /etc/ipsec.conf <<EOF
 config setup
@@ -44,7 +44,7 @@ include /etc/ipsec.d/*.conf
 EOF
  
 
-rm /etc/ipsec.d/l2tp-ipsec.conf
+rm -f /etc/ipsec.d/l2tp-ipsec.conf
 touch /etc/ipsec.d/l2tp-ipsec.conf
 cat >> /etc/ipsec.d/l2tp-ipsec.conf <<EOF
 conn L2TP-PSK-NAT
@@ -73,13 +73,13 @@ cat >> /etc/ppp/chap-secrets << EOF
 test * password *
 EOF
 
-rm /etc/ipsec.d/default.secrets
+rm -f /etc/ipsec.d/default.secrets
 touch /etc/ipsec.d/default.secrets
 cat >> /etc/ipsec.d/default.secrets <<EOF
 : PSK "password"
 EOF
 
-rm /etc/sysctl.conf
+rm -f /etc/sysctl.conf
 touch /etc/sysctl.conf
 cat >> /etc/sysctl.conf <<EOF
 
