@@ -1,7 +1,7 @@
-﻿#!/bin/bash
+#!/bin/bash
 yum -y install ppp pptpd epel-release xl2tpd libreswan lsof
 
-rm -rf /etc/ppp/options.pptpd
+rm -f /etc/ppp/options.pptpd
 touch /etc/ppp/options.pptpd
 cat >> /etc/ppp/options.pptpd <<EOF
 ipcp-accept-local
@@ -31,55 +31,55 @@ persist
 logfile /var/log/xl2tpd.log
 EOF
 
-rm -rf /etc/ipsec.conf
+rm -f /etc/ipsec.conf
 touch /etc/ipsec.conf
 cat >> /etc/ipsec.conf <<EOF
 config setup
-        protostack=netkey
-        dumpdir=/var/run/pluto/
-        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:25.0.0.0/8,%v4:100.64.0.0/10,%v6:fd00::/8,%v6:fe80::/10
+protostack=netkey
+dumpdir=/var/run/pluto/
+virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:25.0.0.0/8,%v4:100.64.0.0/10,%v6:fd00::/8,%v6:fe80::/10
 
 include /etc/ipsec.d/*.conf
 
 EOF
- 
 
-rm -rf /etc/ipsec.d/l2tp-ipsec.conf
+
+rm -f /etc/ipsec.d/l2tp-ipsec.conf
 touch /etc/ipsec.d/l2tp-ipsec.conf
 cat >> /etc/ipsec.d/l2tp-ipsec.conf <<EOF
 conn L2TP-PSK-NAT
-        rightsubnet=0.0.0.0/0
-        dpddelay=10
-        dpdtimeout=20
-        dpdaction=clear
-        forceencaps=yes
-        also=L2TP-PSK-noNAT
+rightsubnet=0.0.0.0/0
+dpddelay=10
+dpdtimeout=20
+dpdaction=clear
+forceencaps=yes
+also=L2TP-PSK-noNAT
 conn L2TP-PSK-noNAT
-        authby=secret
-        pfs=no
-        auto=add
-        keyingtries=3
-        rekey=no
-        ikelifetime=8h
-        keylife=1h
-        type=transport
-        left=172.31.36.166 
-        leftprotoport=17/1701 
-        right=%any
-        rightprotoport=17/%any
+authby=secret
+pfs=no
+auto=add
+keyingtries=3
+rekey=no
+ikelifetime=8h
+keylife=1h
+type=transport
+left=172.31.36.166 
+leftprotoport=17/1701 
+right=%any
+rightprotoport=17/%any
 EOF
 
 cat >> /etc/ppp/chap-secrets << EOF
 test * password *
 EOF
 
-rm -rf /etc/ipsec.d/default.secrets
+rm -f /etc/ipsec.d/default.secrets
 touch /etc/ipsec.d/default.secrets
 cat >> /etc/ipsec.d/default.secrets <<EOF
 : PSK "password"
 EOF
 
-rm -rf /etc/sysctl.conf
+rm -f /etc/sysctl.conf
 touch /etc/sysctl.conf
 cat >> /etc/sysctl.conf <<EOF
 
@@ -120,3 +120,4 @@ systemctl enable ipsec
 systemctl start ipsec 
 systemctl enable xl2tpd 
 systemctl start xl2tpd
+
